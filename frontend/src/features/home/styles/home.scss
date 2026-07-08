@@ -293,3 +293,12 @@ footer {
 
 }
 }
+
+.nav-buttons{
+  display: flex;
+  gap: 0.5rem;
+
+  .lg-butt{
+    background-color: rgba(255, 0, 51, 0.805);
+  }
+}

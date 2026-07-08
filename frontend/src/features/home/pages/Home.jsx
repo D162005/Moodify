@@ -8,7 +8,7 @@ import { Link, useNavigate } from 'react-router'
 const Home = () => {
   const [mood, setMood] = useState('')
 
-  const {user, loading, handleGetMe} = useAuth()
+  const {user, loading, setUser, handleGetMe, handleLogout} = useAuth()
 
   const nevigate = useNavigate()
 
@@ -23,6 +23,13 @@ const Home = () => {
 
   console.log(!!user==true)
   
+  function handleLogOutButt(){
+    handleLogout()
+    setUser(null)
+    window.location.reload(true)
+    // nevigate('/')
+    
+  }
 
   return (
     <>
@@ -43,8 +50,11 @@ const Home = () => {
 
       <main className="home">
         <header className="home__nav">
-          <h1 className="home__brand">Moodify</h1>
-          <button type="button" className="home__song-button">Song</button>
+          <h1 className="home__brand" onClick={()=>{nevigate('/')}}>Moodify</h1>
+          <div className="nav-buttons">
+            <button type="button" className="home__song-button">Add Song</button>
+            <button type="button" className="home__song-button lg-butt" onClick={handleLogOutButt}>Log Out</button>
+          </div>
         </header>
 
         <section className="home__section home__section--detector">
