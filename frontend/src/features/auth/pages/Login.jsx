@@ -12,7 +12,7 @@ const Login = () => {
 
     const nevigator = useNavigate()
 
-    const {loading, handleLoginUser} = useAuth()
+    const {loading, handleLoginUser, user} = useAuth()
 
     function handleFormSubmit(e){
         e.preventDefault()
@@ -22,7 +22,7 @@ const Login = () => {
         nevigator('/')
     }
 
-    if(loading){
+    if(loading && !!user == true){
         return (<main><h1>Loading...</h1></main>)
     }
 

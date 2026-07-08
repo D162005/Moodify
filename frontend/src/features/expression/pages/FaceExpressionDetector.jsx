@@ -1,8 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
 import { initialize,detect } from "../utils/utils";
 import '../../common/styles/butt.scss'
+import '../styles/detector.scss'
 
-export default function FaceExpressionDetector() {
+const moodMap = {
+  happy: 'happy',
+  sad: 'sad',
+  surprised: 'surprised',
+  angry: 'angry',
+  neutral: 'neutral'
+}
+
+export default function FaceExpressionDetector({ onMoodDetected, compact = false }) {
   const videoRef = useRef(null);
 
   const streamRef = useRef();
@@ -29,84 +38,62 @@ export default function FaceExpressionDetector() {
   }, []);
 
 
-  return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: "20px",
-        padding: "20px"
-      }}
-    >
+  async function handleDetect() {
+    await detect({
+      videoRef,
+      setExpression: (value) => {
+        setExpression(value)
 
-      <h2>Moodify Face Expression Detector</h2>
+        const normalizedMood = moodMap[String(value).toLowerCase()]
+
+        onMoodDetected?.(normalizedMood || '')
+      },
+      setConfidence
+    })
+  }
+
+  return (
+    <div className={compact ? 'detector detector--compact' : 'detector'}>
+
+      <h2 className="detector__title">Moodify Face Expression Detector</h2>
 
       {loading && <h3>Loading AI Models...</h3>}
 
       {error && (
-        <h3 style={{ color: "red" }}>
+        <h3 className="detector__error">
           {error}
         </h3>
       )}
 
-      <video
-        ref={videoRef}
-        autoPlay
-        muted
-        playsInline
-        width={440}
-        height={280}
-        style={{
-          borderRadius: "15px",
-          border: "3px solid black",
-          objectFit: "cover"
-        }}
-      />
+      <div className="detector__layout">
+        <video
+          ref={videoRef}
+          autoPlay
+          muted
+          playsInline
+          className="detector__video"
+        />
 
-      <div
-        style={{
-          width: 250,
-          border: "1px solid gray",
-          borderRadius: "10px",
-          display:"flex",
-          // flexDirection:'column',
-          gap:"1rem",
-          alignItems:"center",
-          justifyContent:"center",
-          // padding: "1px",
-          textAlign: "center"
-        }}
-      >
-        <div>
-          <h5>
-          Expression
-        </h5>
+        <div className="detector__stats">
+          <div className="detector__stat">
+            <h5 className="detector__label">Expression</h5>
 
-        <h4
-          style={{
-            textTransform: "uppercase",
-            color: "#1f8ef1"
-          }}
-        >
-          {expression}
-        </h4>
+            <h4 className="detector__value detector__value--expression">
+              {expression}
+            </h4>
+          </div>
+
+          <div className="detector__stat">
+            <h4 className="detector__label">Confidence</h4>
+
+            <h5 className="detector__value">
+              {(confidence * 100).toFixed(2)} %
+            </h5>
+          </div>
         </div>
-        
-        <div>
-          <h4>
-          Confidence
-        </h4>
-
-        <h5>
-          {(confidence * 100).toFixed(2)} %
-        </h5>
-        </div>
-        
-
       </div>
 
-      <button onClick={()=>{detect({videoRef, setExpression, setConfidence})}} className="butt">detect</button>
+      <button onClick={handleDetect} className="butt detector__button">Detect</button>
 
     </div>
   );

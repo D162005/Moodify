@@ -1,0 +1,84 @@
+.player {
+  width: 100%;
+  min-height: 0;
+}
+
+.player__card {
+  padding: 12px;
+  border: 1px solid rgba(245, 239, 230, 0.14);
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(28, 28, 28, 0.96), rgba(20, 20, 20, 0.94));
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.22);
+  display: grid;
+  gap: 10px;
+  overflow: hidden;
+}
+
+.player__card--empty {
+  min-height: 92px;
+  align-content: center;
+}
+
+.player__song {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.player__poster {
+  width: 78px;
+  height: 78px;
+  border-radius: 14px;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.player__details {
+  min-width: 0;
+}
+
+.player__title {
+  margin: 0 0 4px;
+  font-size: 0.98rem;
+}
+
+.player__mood,
+.player__track {
+  margin: 0;
+  color: rgba(245, 239, 230, 0.76);
+}
+
+.player__track {
+  margin-top: 3px;
+  color: rgba(245, 239, 230, 0.56);
+}
+
+.player__audio {
+  width: 100%;
+}
+
+.player__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.player--compact .player__card {
+  padding: 10px;
+}
+
+.player--compact .player__poster {
+  width: 72px;
+  height: 72px;
+}
+
+@media (max-width: 700px) {
+  .player__song {
+    align-items: flex-start;
+  }
+
+  .player__card {
+    gap: 14px;
+  }
+}

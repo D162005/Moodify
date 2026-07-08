@@ -20,6 +20,8 @@ const songSchema = new mongoose.Schema({
             message:"Enum this is"
         }
     }
+}, {
+    timestamps: true
 })
 
 

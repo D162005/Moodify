@@ -60,6 +60,25 @@ async function uploadSong(req,res){
 
 }
 
+async function getSongs(req, res) {
+    try {
+        const { mood } = req.query
+
+        const filter = mood ? { mood } : {}
+        const songs = await songModel.find(filter).sort({ createdAt: -1 })
+
+        return res.status(200).json({
+            message: 'Songs fetched successfully',
+            songs
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message: error?.message || 'Failed to fetch songs'
+        })
+    }
+}
+
 module.exports = {
-    uploadSong
+    uploadSong,
+    getSongs
 }

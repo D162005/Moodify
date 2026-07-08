@@ -12,7 +12,7 @@ const Register = () => {
 
     const nevigator = useNavigate()
 
-    const {loading, handleRegister} = useAuth()
+    const {loading, handleRegister, user} = useAuth()
 
     function handleFormSubmit(e){
         
@@ -21,7 +21,10 @@ const Register = () => {
         handleRegister({userName,email,password})
 
         nevigator('/')
+    }
 
+    if(loading && !!user == true){
+      return (<main><h1>loading</h1></main>)
     }
 
   return (
