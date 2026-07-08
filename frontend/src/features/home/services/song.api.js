@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const api = axios.create({
-    baseURL: "http://localhost:3000/api/song",
+    baseURL: "https://moodify-o0p9.onrender.com/api/song",
     withCredentials: true
 })
 
