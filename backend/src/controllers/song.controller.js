@@ -26,19 +26,20 @@ async function uploadSong(req,res){
             })
         }
 
-        const songFile = await storageService.uploadFile({
-          buffer: songBuffer,
-          filename: song.title + ".mp3",
-                    folder: 'moodify/songs',
-                    resourceType: 'auto'
-        })
-
-        const posterFile = await storageService.uploadFile({
-            buffer: song.image.imageBuffer,
-            filename: song.title + ".jpeg",
-                        folder: 'moodify/poster',
-                        resourceType: 'image'
-        })
+        const [songFile,posterFile] = await Promise.all([
+            storageService.uploadFile({
+                buffer: songBuffer,
+                filename: song.title + ".mp3",
+                folder: 'moodify/songs',
+                resourceType: 'auto'
+            }),
+            storageService.uploadFile({
+                buffer: song.image.imageBuffer,
+                filename: song.title + ".jpeg",
+                folder: 'moodify/poster',
+                resourceType: 'image'
+            })
+        ])
 
         const newSong = await songModel.create({
             url: songFile.secure_url || songFile.url,
